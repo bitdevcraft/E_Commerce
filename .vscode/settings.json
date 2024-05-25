@@ -1,0 +1,12 @@
+{
+  "sqltools.useNodeRuntime": true,
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "${workspaceFolder:WebAPI}/src/API/main_schema.db",
+      "name": "Main",
+      "group": "Template"
+    }
+  ]
+}
