@@ -9,9 +9,9 @@ namespace API.Controllers
     {
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetListModel()
+        public async Task<IActionResult> GetListModel([FromQuery] ModelParams param)
         {
-            return HandleResult(await Mediator.Send(new List.Query()));
+            return HandleResult(await Mediator.Send(new List.Query { Params = param }));
         }
 
         [AllowAnonymous]
