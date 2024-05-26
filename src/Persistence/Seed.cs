@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text.Json;
 using Domain;
+using Domain.OrderAggregate;
 using Microsoft.AspNetCore.Identity;
 
 namespace Persistence
@@ -29,31 +30,40 @@ namespace Persistence
                 await context.Models.AddRangeAsync(models);
             }
 
-
             if (!context.AppCompanies.Any())
             {
                 var tmpData = File.ReadAllText(path + @"/SeedData/company.json");
                 var company = JsonSerializer.Deserialize<AppCompany>(tmpData);
-                // var company = new AppCompany
-                // {
-                //     Logo =
-                //         "/Files/Uploaded/Images/vite.svg",
-                //     Name = "Default Company",
-                //     Email = "defaultcompany@test.com",
-                //     MobileNo = "000-000-000",
-                //     Hotline = "000-000-000",
-                //     About =
-                //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                //     Vision =
-                //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                //     Mission =
-                //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                //     Address = "City, Country",
-                // };
-
                 await context.AppCompanies.AddAsync(company);
             }
 
+            if (!context.ProductBrands.Any())
+            {
+                var brandsData = File.ReadAllText(path + @"/SeedData/brands.json");
+                var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
+                context.ProductBrands.AddRange(brands);
+            }
+
+            if (!context.ProductTypes.Any())
+            {
+                var typesData = File.ReadAllText(path + @"/SeedData/types.json");
+                var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
+                context.ProductTypes.AddRange(types);
+            }
+
+            if (!context.Products.Any())
+            {
+                var productsData = File.ReadAllText(path + @"/SeedData/products.json");
+                var products = JsonSerializer.Deserialize<List<Product>>(productsData);
+                context.Products.AddRange(products);
+            }
+
+            if (!context.DeliveryMethods.Any())
+            {
+                var deliveryData = File.ReadAllText(path + @"/SeedData/delivery.json");
+                var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
+                context.DeliveryMethods.AddRange(methods);
+            }
 
             if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
         }
